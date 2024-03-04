@@ -16,7 +16,7 @@ export const query = new GraphQLObjectType({
   fields: {
     memberTypes: {
       type: new GraphQLList(MemberTypeType),
-      resolve: async (_source, _args, { prisma }: queryCtx) =>
+      resolve: async (_, _args, { prisma }: queryCtx) =>
         await prisma.memberType.findMany(),
     },
     memberType: {
@@ -26,13 +26,12 @@ export const query = new GraphQLObjectType({
           type: new GraphQLNonNull(MemberTypeIdType),
         },
       },
-      resolve: async (__source, { id }: { id: MemberTypeId }, { prisma }: queryCtx) =>
+      resolve: async (__, { id }: { id: MemberTypeId }, { prisma }: queryCtx) =>
         await prisma.memberType.findUnique({ where: { id } }),
     },
     posts: {
       type: new GraphQLList(PostType),
-      resolve: async (__source, _args, { prisma }: queryCtx) =>
-        await prisma.post.findMany(),
+      resolve: async (__, _args, { prisma }: queryCtx) => await prisma.post.findMany(),
     },
     post: {
       type: PostType,
@@ -41,13 +40,12 @@ export const query = new GraphQLObjectType({
           type: new GraphQLNonNull(UUIDType),
         },
       },
-      resolve: async (_source, { id }: { id: string }, { prisma }: queryCtx) =>
+      resolve: async (_, { id }: { id: string }, { prisma }: queryCtx) =>
         await prisma.post.findUnique({ where: { id } }),
     },
     users: {
       type: new GraphQLList(UserType),
-      resolve: async (_source, _args, { prisma }: queryCtx) =>
-        await prisma.user.findMany(),
+      resolve: async (_, _args, { prisma }: queryCtx) => await prisma.user.findMany(),
     },
     user: {
       type: UserType,
@@ -56,13 +54,12 @@ export const query = new GraphQLObjectType({
           type: new GraphQLNonNull(UUIDType),
         },
       },
-      resolve: async (_source, { id }: { id: string }, { prisma }: queryCtx) =>
+      resolve: async (_, { id }: { id: string }, { prisma }: queryCtx) =>
         await prisma.user.findUnique({ where: { id } }),
     },
     profiles: {
       type: new GraphQLList(ProfileType),
-      resolve: async (_source, _args, { prisma }: queryCtx) =>
-        await prisma.profile.findMany(),
+      resolve: async (_, _args, { prisma }: queryCtx) => await prisma.profile.findMany(),
     },
     profile: {
       type: ProfileType,
@@ -71,7 +68,7 @@ export const query = new GraphQLObjectType({
           type: new GraphQLNonNull(UUIDType),
         },
       },
-      resolve: async (_source, { id }: { id: string }, { prisma }: queryCtx) =>
+      resolve: async (_, { id }: { id: string }, { prisma }: queryCtx) =>
         await prisma.profile.findUnique({ where: { id } }),
     },
   },

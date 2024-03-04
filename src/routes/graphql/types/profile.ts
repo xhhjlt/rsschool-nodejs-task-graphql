@@ -1,4 +1,10 @@
-import { GraphQLBoolean, GraphQLInt, GraphQLObjectType } from 'graphql';
+import {
+  GraphQLBoolean,
+  GraphQLInputObjectType,
+  GraphQLInt,
+  GraphQLNonNull,
+  GraphQLObjectType,
+} from 'graphql';
 import { UUIDType } from './uuid.js';
 import { MemberTypeIdType, MemberTypeType } from './member-type.js';
 import { UserType } from './user.js';
@@ -36,6 +42,39 @@ export const ProfileType: GraphQLObjectType = new GraphQLObjectType({
       type: MemberTypeType,
       resolve: async ({ memberTypeId }: Parent, _args, { prisma }: queryCtx) =>
         await prisma.memberType.findUnique({ where: { id: memberTypeId } }),
+    },
+  }),
+});
+
+export const ProfileCreateInputType = new GraphQLInputObjectType({
+  name: 'CreateProfileInput',
+  fields: () => ({
+    isMale: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+    },
+    yearOfBirth: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    userId: {
+      type: new GraphQLNonNull(UUIDType),
+    },
+    memberTypeId: {
+      type: new GraphQLNonNull(MemberTypeIdType),
+    },
+  }),
+});
+
+export const ProfileChangeInputType = new GraphQLInputObjectType({
+  name: 'ChangeProfileInput',
+  fields: () => ({
+    isMale: {
+      type: GraphQLBoolean,
+    },
+    yearOfBirth: {
+      type: GraphQLInt,
+    },
+    memberTypeId: {
+      type: MemberTypeIdType,
     },
   }),
 });
